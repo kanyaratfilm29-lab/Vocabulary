@@ -1,0 +1,1168 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Mitr',sans-serif;background:linear-gradient(135deg,#e0f7fa 0%,#fce4ec 50%,#f3e5f5 100%);min-height:100vh;overflow-x:hidden}
+:root{
+--sky:#4dd0e1;--sky-light:#e0f7fa;--sky-dark:#00838f;
+--pink:#f48fb1;--pink-light:#fce4ec;--pink-dark:#ad1457;
+--yellow:#fff176;--yellow-light:#fffde7;--yellow-dark:#f57f17;
+--mint:#a5d6a7;--mint-light:#e8f5e9;--mint-dark:#2e7d32;
+--purple:#ce93d8;--purple-light:#f3e5f5;--purple-dark:#6a1b9a;
+--white:#fff;--text:#3a3a5c;--text-light:#7b7b9b;
+--shadow:0 4px 20px rgba(0,0,0,0.1);--radius:16px;
+}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes pop{0%{transform:scale(0.8);opacity:0}100%{transform:scale(1);opacity:1}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes float{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-6px) rotate(2deg)}}
+@keyframes starPop{0%{transform:scale(0) rotate(-30deg);opacity:0}70%{transform:scale(1.3) rotate(10deg);opacity:1}100%{transform:scale(1) rotate(0deg);opacity:1}}
+.app-wrap{max-width:900px;margin:0 auto;padding:12px}
+.hidden{display:none!important}
+
+/* LOGIN */
+.login-page{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;animation:fadeIn .5s ease}
+.login-hero{font-size:72px;animation:float 3s ease-in-out infinite;margin-bottom:4px}
+.login-title{font-family:'Nunito',sans-serif;font-size:26px;font-weight:800;color:var(--sky-dark);text-align:center;line-height:1.3;margin-bottom:4px}
+.login-subtitle{color:var(--text-light);font-size:14px;text-align:center;margin-bottom:24px}
+.login-card{background:var(--white);border-radius:24px;padding:28px;width:100%;max-width:380px;box-shadow:0 8px 32px rgba(0,0,0,0.12)}
+.login-role-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:20px}
+.role-tab{padding:10px 6px;border:2.5px solid transparent;border-radius:12px;background:var(--sky-light);cursor:pointer;text-align:center;font-family:'Mitr',sans-serif;font-size:12px;font-weight:500;color:var(--text-light);transition:.2s}
+.role-tab.active{border-color:var(--sky);background:var(--white);color:var(--sky-dark);font-weight:600}
+.role-tab .tab-icon{font-size:22px;display:block;margin-bottom:3px}
+.form-group{margin-bottom:16px}
+.form-label{display:block;font-size:13px;font-weight:500;color:var(--text);margin-bottom:6px}
+.form-input{width:100%;padding:12px 14px;border:2px solid #e0e0e0;border-radius:12px;font-family:'Mitr',sans-serif;font-size:15px;outline:none;transition:.2s;color:var(--text);background:#fafafa}
+.form-input:focus{border-color:var(--sky);background:var(--white)}
+.btn-login{width:100%;padding:14px;background:linear-gradient(135deg,var(--sky),#0097a7);border:none;border-radius:14px;color:var(--white);font-family:'Mitr',sans-serif;font-size:16px;font-weight:600;cursor:pointer;transition:.2s}
+.btn-login:hover{opacity:.9;transform:translateY(-1px)}
+.login-hint{background:var(--yellow-light);border-radius:12px;padding:12px;margin-top:16px}
+.login-hint p{font-size:12px;color:var(--yellow-dark);margin:2px 0}
+.login-error{color:#e53935;font-size:13px;text-align:center;margin-top:8px;min-height:18px}
+
+/* NAV */
+.top-nav{background:var(--white);border-radius:20px;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:var(--shadow);margin-bottom:16px;animation:fadeIn .4s ease}
+.nav-left{display:flex;align-items:center;gap:10px}
+.nav-avatar{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px}
+.nav-name{font-weight:600;font-size:14px;color:var(--text)}
+.nav-role-badge{font-size:11px;color:var(--text-light);background:#f5f5f5;padding:2px 8px;border-radius:20px;display:inline-block}
+.nav-btn{background:none;border:2px solid #eee;border-radius:12px;padding:7px 12px;cursor:pointer;font-family:'Mitr',sans-serif;font-size:13px;color:var(--text);transition:.2s}
+.nav-logout{color:#e53935;border-color:#ffcdd2}
+.nav-logout:hover{background:#ffebee}
+.bottom-nav{background:var(--white);border-radius:20px;padding:8px 12px;display:flex;justify-content:space-around;box-shadow:var(--shadow);margin-top:16px;position:sticky;bottom:12px}
+.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 4px;border-radius:12px;cursor:pointer;border:none;background:none;font-family:'Mitr',sans-serif;font-size:11px;color:var(--text-light);transition:.2s}
+.nav-item.active{background:var(--sky-light);color:var(--sky-dark)}
+.nav-item .nav-icon{font-size:22px}
+
+/* CARDS */
+.card{background:var(--white);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);margin-bottom:16px;animation:pop .3s ease}
+.card-title{display:flex;align-items:center;gap:8px;font-size:16px;font-weight:600;color:var(--text);margin-bottom:14px}
+.card-title span{font-size:20px}
+
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:16px}
+.stat-card{border-radius:var(--radius);padding:14px;text-align:center;animation:pop .3s ease}
+.stat-icon{font-size:28px;margin-bottom:6px;display:block;animation:bounce 2s ease-in-out infinite}
+.stat-num{font-family:'Nunito',sans-serif;font-size:28px;font-weight:800;display:block;line-height:1}
+.stat-label{font-size:12px;margin-top:4px;opacity:.8}
+.stat-sky{background:linear-gradient(135deg,#e0f7fa,#b2ebf2);color:var(--sky-dark)}
+.stat-pink{background:linear-gradient(135deg,#fce4ec,#f8bbd0);color:var(--pink-dark)}
+.stat-mint{background:linear-gradient(135deg,#e8f5e9,#c8e6c9);color:var(--mint-dark)}
+.stat-yellow{background:linear-gradient(135deg,#fffde7,#fff9c4);color:var(--yellow-dark)}
+
+/* BADGE */
+.badge{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:600}
+.badge-pass{background:#e8f5e9;color:#2e7d32}
+.badge-practice{background:#fff8e1;color:#f57f17}
+.badge-fail{background:#ffebee;color:#c62828}
+.badge-none{background:#f5f5f5;color:#9e9e9e}
+.status-dot{width:12px;height:12px;border-radius:50%;display:inline-block;flex-shrink:0}
+.dot-pass{background:#66bb6a}.dot-practice{background:#ffca28}.dot-fail{background:#ef5350}.dot-none{background:#e0e0e0}
+
+/* STUDENTS */
+.students-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
+.student-card{background:var(--white);border-radius:var(--radius);padding:14px;text-align:center;box-shadow:var(--shadow);cursor:pointer;transition:.2s;animation:pop .3s ease;border:2.5px solid transparent}
+.student-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,0.14);border-color:var(--sky)}
+.student-avatar{width:56px;height:56px;border-radius:50%;margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700;color:var(--white)}
+.student-name{font-size:13px;font-weight:600;color:var(--text);margin-bottom:4px}
+.student-info{font-size:11px;color:var(--text-light)}
+.student-stars{font-size:13px;margin-top:6px}
+
+/* CALENDAR */
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.cal-header{text-align:center;font-size:11px;font-weight:600;color:var(--text-light);padding:4px}
+.cal-day{aspect-ratio:1;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;cursor:pointer;transition:.2s;position:relative;border:2px solid transparent}
+.cal-day:hover{transform:scale(1.1)}
+.cal-day.today{border-color:var(--sky);font-weight:800}
+.cal-day.pass{background:#c8e6c9;color:#2e7d32}
+.cal-day.practice{background:#fff9c4;color:#f57f17}
+.cal-day.fail{background:#ffcdd2;color:#c62828}
+.cal-day.empty-day{background:#f5f5f5;color:#ccc}
+.cal-day .has-data{width:6px;height:6px;border-radius:50%;background:currentColor;position:absolute;bottom:3px;left:50%;transform:translateX(-50%);opacity:.6}
+
+/* RECORD */
+.record-row{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:#fafafa;border-radius:12px;margin-bottom:8px;transition:.2s;cursor:pointer}
+.record-row:hover{background:#f0f0f0}
+.status-picker{display:flex;gap:6px;flex-wrap:wrap}
+.status-opt{padding:7px 12px;border-radius:20px;border:2px solid #eee;background:var(--white);cursor:pointer;font-family:'Mitr',sans-serif;font-size:12px;font-weight:500;transition:.2s;display:flex;align-items:center;gap:5px}
+.status-opt.sel-pass{border-color:#66bb6a;background:#e8f5e9;color:#2e7d32}
+.status-opt.sel-practice{border-color:#ffca28;background:#fff8e1;color:#f57f17}
+.status-opt.sel-fail{border-color:#ef5350;background:#ffebee;color:#c62828}
+
+/* ACHIEVEMENTS */
+.achievement-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.achievement{text-align:center;padding:12px 8px;border-radius:14px;transition:.2s}
+.achievement.earned{animation:starPop .5s ease}
+.achievement.not-earned{opacity:.35;filter:grayscale(1)}
+.achievement .ach-icon{font-size:32px;display:block;margin-bottom:6px}
+.achievement .ach-name{font-size:11px;font-weight:600;color:var(--text)}
+
+/* SEARCH */
+.search-bar{display:flex;align-items:center;background:var(--white);border-radius:14px;padding:10px 14px;gap:10px;box-shadow:var(--shadow);margin-bottom:16px}
+.search-bar input{flex:1;border:none;outline:none;font-family:'Mitr',sans-serif;font-size:14px;color:var(--text);background:transparent}
+
+/* BTNS */
+.btn{padding:10px 18px;border-radius:12px;border:none;font-family:'Mitr',sans-serif;font-size:14px;font-weight:500;cursor:pointer;transition:.2s}
+.btn:active{transform:scale(.97)}
+.btn-primary{background:linear-gradient(135deg,var(--sky),#0097a7);color:var(--white)}
+.btn-primary:hover{opacity:.9}
+.btn-ghost{background:#f5f5f5;color:var(--text)}
+.btn-ghost:hover{background:#eee}
+.btn-sm{padding:6px 12px;font-size:12px;border-radius:10px}
+.btn-danger{background:linear-gradient(135deg,#ef5350,#c62828);color:var(--white)}
+
+/* TABS */
+.tabs{display:flex;gap:8px;margin-bottom:16px;overflow-x:auto;padding-bottom:4px}
+.tab{padding:8px 16px;border-radius:20px;border:none;background:#f0f0f0;font-family:'Mitr',sans-serif;font-size:13px;cursor:pointer;white-space:nowrap;color:var(--text-light);transition:.2s}
+.tab.active{background:var(--sky);color:var(--white);font-weight:600}
+
+/* PROGRESS */
+.progress-bar{height:10px;background:#f0f0f0;border-radius:10px;overflow:hidden;margin:8px 0}
+.progress-fill{height:100%;border-radius:10px;transition:.5s}
+
+/* LEADERBOARD */
+.leader-row{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:12px;margin-bottom:8px;background:#fafafa}
+.leader-rank{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0}
+.rank-1{background:linear-gradient(135deg,#ffd700,#ff8f00);color:#fff}
+.rank-2{background:linear-gradient(135deg,#e0e0e0,#9e9e9e);color:#fff}
+.rank-3{background:linear-gradient(135deg,#ffb347,#cd7f32);color:#fff}
+.rank-other{background:#f0f0f0;color:var(--text-light)}
+
+/* REPORT TABLE */
+.report-table{width:100%;border-collapse:collapse}
+.report-table th,.report-table td{padding:8px 10px;text-align:center;font-size:12px;border-bottom:1px solid #f0f0f0}
+.report-table th{background:#f8f8f8;color:var(--text-light);font-weight:600}
+
+/* ========================
+   VOCAB PAGE — DATE-BASED
+   ======================== */
+.vocab-date-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.vocab-date-nav{display:flex;align-items:center;gap:10px}
+.vocab-date-label{font-size:15px;font-weight:700;color:var(--text)}
+.vocab-date-sub{font-size:12px;color:var(--text-light);margin-top:2px}
+
+/* ADD WORD FORM */
+.add-word-form{background:linear-gradient(135deg,#e0f7fa,#f3e5f5);border-radius:16px;padding:16px;margin-bottom:16px;animation:pop .3s ease}
+.add-word-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.add-word-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:10px}
+.field-label{font-size:12px;font-weight:600;color:var(--sky-dark);margin-bottom:4px;display:block}
+.field-input{width:100%;padding:9px 12px;border:2px solid #e0e0e0;border-radius:10px;font-family:'Mitr',sans-serif;font-size:14px;outline:none;color:var(--text);background:var(--white);transition:.2s}
+.field-input:focus{border-color:var(--sky)}
+
+/* WORD CARD IN LIST */
+.word-list-card{background:var(--white);border-radius:14px;padding:12px 14px;display:flex;align-items:center;gap:12px;margin-bottom:8px;box-shadow:0 2px 8px rgba(0,0,0,0.06);transition:.2s;animation:fadeIn .3s ease}
+.word-list-card:hover{box-shadow:0 4px 14px rgba(0,0,0,0.1)}
+.word-emoji-big{font-size:32px;flex-shrink:0;width:44px;text-align:center}
+.word-english-big{font-family:'Nunito',sans-serif;font-size:18px;font-weight:800;color:var(--sky-dark);line-height:1}
+.word-thai-big{font-size:14px;color:var(--purple-dark);font-weight:600;margin-top:2px}
+.word-cat-tag{font-size:11px;color:var(--text-light);background:#f0f0f0;padding:2px 8px;border-radius:20px;display:inline-block;margin-top:4px}
+.word-actions{display:flex;gap:6px;margin-left:auto;flex-shrink:0}
+.icon-btn{width:32px;height:32px;border-radius:10px;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;transition:.2s}
+.icon-btn:hover{transform:scale(1.1)}
+.icon-btn-del{background:#ffebee;color:#c62828}
+.icon-btn-speak{background:#e0f7fa;color:var(--sky-dark)}
+
+/* DATE SELECTOR STRIP */
+.date-strip{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 10px;margin-bottom:4px}
+.date-chip{flex-shrink:0;padding:8px 14px;border-radius:20px;border:2px solid #e0e0e0;background:var(--white);cursor:pointer;font-family:'Mitr',sans-serif;font-size:13px;font-weight:500;color:var(--text-light);transition:.2s;text-align:center}
+.date-chip:hover{border-color:var(--sky);color:var(--sky-dark)}
+.date-chip.active{border-color:var(--sky);background:var(--sky);color:var(--white);font-weight:600}
+.date-chip .chip-date{font-size:16px;font-weight:700;display:block}
+.date-chip .chip-day{font-size:10px;opacity:.8}
+.date-chip .chip-count{font-size:10px;margin-top:2px;opacity:.8}
+
+/* EMPTY STATE */
+.empty-state{text-align:center;padding:40px 20px;color:var(--text-light)}
+.empty-state .empty-icon{font-size:48px;display:block;margin-bottom:12px;opacity:.5}
+.empty-state p{font-size:14px}
+
+/* WORD CARD (student view) */
+.word-card-student{background:linear-gradient(135deg,var(--sky-light),var(--purple-light));border-radius:16px;padding:16px;text-align:center;margin-bottom:12px;cursor:pointer;transition:.2s;border:2px solid transparent}
+.word-card-student:hover{border-color:var(--sky);transform:scale(1.02)}
+.wcs-emoji{font-size:40px;margin-bottom:8px;display:block}
+.wcs-english{font-family:'Nunito',sans-serif;font-size:22px;font-weight:800;color:var(--sky-dark)}
+.wcs-thai{font-size:16px;font-weight:600;color:var(--purple-dark);margin-top:4px}
+.wcs-cat{font-size:11px;color:var(--text-light);background:rgba(255,255,255,.6);padding:2px 10px;border-radius:20px;display:inline-block;margin-top:6px}
+
+/* QUIZ */
+.quiz-option{width:100%;padding:14px;margin-bottom:10px;border-radius:14px;border:2.5px solid #e0e0e0;background:var(--white);font-family:'Mitr',sans-serif;font-size:15px;cursor:pointer;transition:.2s;text-align:left}
+.quiz-option:hover{border-color:var(--sky);background:var(--sky-light)}
+.quiz-option.correct{border-color:#66bb6a;background:#e8f5e9;color:#2e7d32}
+.quiz-option.wrong{border-color:#ef5350;background:#ffebee;color:#c62828}
+.quiz-option:disabled{cursor:default}
+
+/* TOOLTIP CONFIRM */
+.confirm-overlay{position:absolute;inset:0;background:rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center;z-index:50;border-radius:16px}
+
+select{width:100%;padding:9px 12px;border:2px solid #e0e0e0;border-radius:10px;font-family:'Mitr',sans-serif;font-size:14px;outline:none;color:var(--text);background:#fafafa;cursor:pointer}
+select:focus{border-color:var(--sky)}
+textarea{width:100%;padding:10px 14px;border:2px solid #e0e0e0;border-radius:12px;font-family:'Mitr',sans-serif;font-size:14px;outline:none;color:var(--text);background:#fafafa;resize:vertical}
+textarea:focus{border-color:var(--sky)}
+
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:#ddd;border-radius:3px}
+@media print{.bottom-nav,.top-nav,.btn,.nav-btn{display:none}.card{box-shadow:none}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+const ALL_WORDS=[
+  {id:1,english:"apple",thai:"แอปเปิ้ล",category:"ผลไม้",emoji:"🍎"},
+  {id:2,english:"banana",thai:"กล้วย",category:"ผลไม้",emoji:"🍌"},
+  {id:3,english:"orange",thai:"ส้ม",category:"ผลไม้",emoji:"🍊"},
+  {id:4,english:"book",thai:"หนังสือ",category:"โรงเรียน",emoji:"📚"},
+  {id:5,english:"pencil",thai:"ดินสอ",category:"โรงเรียน",emoji:"✏️"},
+  {id:6,english:"teacher",thai:"ครู",category:"บุคคล",emoji:"👨‍🏫"},
+  {id:7,english:"student",thai:"นักเรียน",category:"บุคคล",emoji:"🧑‍🎓"},
+  {id:8,english:"school",thai:"โรงเรียน",category:"สถานที่",emoji:"🏫"},
+  {id:9,english:"cat",thai:"แมว",category:"สัตว์",emoji:"🐱"},
+  {id:10,english:"dog",thai:"สุนัข",category:"สัตว์",emoji:"🐶"},
+  {id:11,english:"fish",thai:"ปลา",category:"สัตว์",emoji:"🐟"},
+  {id:12,english:"bird",thai:"นก",category:"สัตว์",emoji:"🐦"},
+  {id:13,english:"red",thai:"สีแดง",category:"สี",emoji:"🔴"},
+  {id:14,english:"blue",thai:"สีน้ำเงิน",category:"สี",emoji:"🔵"},
+  {id:15,english:"green",thai:"สีเขียว",category:"สี",emoji:"🟢"},
+  {id:16,english:"yellow",thai:"สีเหลือง",category:"สี",emoji:"🟡"},
+  {id:17,english:"happy",thai:"มีความสุข",category:"ความรู้สึก",emoji:"😊"},
+  {id:18,english:"sad",thai:"เศร้า",category:"ความรู้สึก",emoji:"😢"},
+  {id:19,english:"angry",thai:"โกรธ",category:"ความรู้สึก",emoji:"😠"},
+  {id:20,english:"hungry",thai:"หิวข้าว",category:"ความรู้สึก",emoji:"😋"},
+  {id:21,english:"house",thai:"บ้าน",category:"สถานที่",emoji:"🏠"},
+  {id:22,english:"water",thai:"น้ำ",category:"อาหาร",emoji:"💧"},
+  {id:23,english:"rice",thai:"ข้าว",category:"อาหาร",emoji:"🍚"},
+  {id:24,english:"mother",thai:"แม่",category:"บุคคล",emoji:"👩"},
+  {id:25,english:"father",thai:"พ่อ",category:"บุคคล",emoji:"👨"},
+  {id:26,english:"run",thai:"วิ่ง",category:"กริยา",emoji:"🏃"},
+  {id:27,english:"eat",thai:"กิน",category:"กริยา",emoji:"🍽️"},
+  {id:28,english:"sleep",thai:"นอนหลับ",category:"กริยา",emoji:"😴"},
+  {id:29,english:"play",thai:"เล่น",category:"กริยา",emoji:"⚽"},
+  {id:30,english:"big",thai:"ใหญ่",category:"คุณศัพท์",emoji:"🔝"},
+  {id:31,english:"small",thai:"เล็ก",category:"คุณศัพท์",emoji:"🔽"},
+  {id:32,english:"hot",thai:"ร้อน",category:"คุณศัพท์",emoji:"🌡️"},
+  {id:33,english:"cold",thai:"เย็น/หนาว",category:"คุณศัพท์",emoji:"❄️"},
+  {id:34,english:"friend",thai:"เพื่อน",category:"บุคคล",emoji:"🤝"},
+  {id:35,english:"flower",thai:"ดอกไม้",category:"ธรรมชาติ",emoji:"🌸"},
+];
+
+const USERS=[
+  {id:"admin1",name:"ผู้ดูแลระบบ",role:"admin",username:"admin",password:"admin123",avatar:"👑",color:"#7c4dff"},
+  {id:"t1",name:"ครูสมศรี วิทยาคม",role:"teacher",username:"teacher1",password:"teacher1",avatar:"👩‍🏫",color:"#0097a7",room:"ป.3/1"},
+  {id:"t2",name:"ครูมานะ สุขใจ",role:"teacher",username:"teacher2",password:"teacher2",avatar:"👨‍🏫",color:"#00695c",room:"ป.3/2"},
+  {id:"s1",name:"เด็กหญิงมาลี ดอกไม้",role:"student",username:"mali001",password:"mali001",avatar:"👧",color:"#e91e63",room:"ป.3/1",number:1,grade:"ป.3",photo:"👧🏻"},
+  {id:"s2",name:"เด็กชายสมชาย ใจดี",role:"student",username:"somchai01",password:"somchai01",avatar:"👦",color:"#1976d2",room:"ป.3/1",number:2,grade:"ป.3",photo:"👦🏻"},
+  {id:"s3",name:"เด็กหญิงวิไล รักเรียน",role:"student",username:"wilai001",password:"wilai001",avatar:"👧",color:"#7b1fa2",room:"ป.3/1",number:3,grade:"ป.3",photo:"👧🏼"},
+  {id:"s4",name:"เด็กชายธนา สว่างใส",role:"student",username:"thana001",password:"thana001",avatar:"👦",color:"#f57c00",room:"ป.3/1",number:4,grade:"ป.3",photo:"👦🏼"},
+  {id:"s5",name:"เด็กหญิงอรุณ แสนสวย",role:"student",username:"arun001",password:"arun001",avatar:"👧",color:"#c62828",room:"ป.3/1",number:5,grade:"ป.3",photo:"👧🏽"},
+  {id:"s6",name:"เด็กชายปิยะ มุ่งมั่น",role:"student",username:"piya001",password:"piya001",avatar:"👦",color:"#2e7d32",room:"ป.3/2",number:1,grade:"ป.3",photo:"👦🏽"},
+];
+
+function genRecords(){
+  const records={};
+  const today=new Date();
+  const students=['s1','s2','s3','s4','s5','s6'];
+  const statuses=['pass','pass','pass','practice','fail'];
+  // Pre-seed some vocab per date
+  const vocabSets=[
+    [1,2,3,9,10],[4,5,6,7,8],[11,12,13,14,15],[16,17,18,19,20],[21,22,23,24,25],
+    [26,27,28,29,30],[31,32,33,34,35],[1,4,9,13,17],[2,5,10,14,18],[3,6,11,15,19],
+  ];
+  for(let i=0;i<30;i++){
+    const d=new Date(today);d.setDate(d.getDate()-i);
+    if(d.getDay()===0||d.getDay()===6) continue;
+    const dateStr=d.toISOString().split('T')[0];
+    const wset=vocabSets[i%vocabSets.length];
+    records[dateStr]={date:dateStr,words:wset,wordCount:wset.length,studentResults:{}};
+    students.forEach(sid=>{
+      records[dateStr].studentResults[sid]={status:statuses[Math.floor(Math.random()*statuses.length)],note:''};
+    });
+  }
+  return records;
+}
+
+let state={
+  user:null,page:'dashboard',
+  records:genRecords(),
+  students:USERS.filter(u=>u.role==='student'),
+  selectedStudent:null,
+  calMonth:new Date(),selectedDate:null,
+  quizIdx:0,quizAnswered:false,quizScore:0,quizTotal:0,selectedAnswer:null,
+  searchQ:'',reportTab:'week',
+  // VOCAB PAGE STATE
+  vocabViewDate:new Date().toISOString().split('T')[0],
+  vocabShowAddForm:false,
+  newWord:{english:'',thai:'',category:'',emoji:''},
+  deleteConfirm:null,
+};
+
+async function saveState(){
+  try{await window.storage.set('vocab-v2',JSON.stringify({records:state.records,students:state.students}));}catch(e){}
+}
+async function loadState(){
+  try{
+    const r=await window.storage.get('vocab-v2');
+    if(r&&r.value){const s=JSON.parse(r.value);if(s.records)state.records=s.records;if(s.students)state.students=s.students;}
+  }catch(e){}
+}
+
+function getStudentStats(sid){
+  const results=Object.values(state.records).flatMap(r=>r.studentResults&&r.studentResults[sid]?[r.studentResults[sid]]:[]);
+  const pass=results.filter(r=>r.status==='pass').length;
+  const practice=results.filter(r=>r.status==='practice').length;
+  const fail=results.filter(r=>r.status==='fail').length;
+  const total=results.length;
+  const words=Object.values(state.records).reduce((s,r)=>{
+    if(r.studentResults&&r.studentResults[sid]&&r.studentResults[sid].status==='pass') return s+(r.wordCount||0);
+    return s;
+  },0);
+  const stars=pass*3+practice*1;
+  return{pass,practice,fail,total,words,stars};
+}
+function getStatusEmoji(s){return s==='pass'?'🟢':s==='practice'?'🟡':s==='fail'?'🔴':'⚪'}
+function getStatusText(s){return s==='pass'?'ผ่าน':s==='practice'?'ต้องฝึกเพิ่ม':s==='fail'?'ยังไม่ผ่าน':'ไม่มีข้อมูล'}
+function getStatusClass(s){return s==='pass'?'pass':s==='practice'?'practice':s==='fail'?'fail':'empty-day'}
+function getDaysInMonth(y,m){return new Date(y,m+1,0).getDate()}
+function getFirstDayOfMonth(y,m){return new Date(y,m,1).getDay()}
+function getAchievements(sid){
+  const s=getStudentStats(sid);
+  return[
+    {id:'star',name:'ดาวนักอ่าน',icon:'⭐',earned:s.stars>=20},
+    {id:'trophy',name:'นักท่องศัพท์',icon:'🏆',earned:s.pass>=10},
+    {id:'medal',name:'ยอดเยี่ยม',icon:'🎖️',earned:s.stars>=50},
+    {id:'streak',name:'ไม่ขาดสาย',icon:'🔥',earned:s.pass>=7},
+    {id:'bookworm',name:'หนอนหนังสือ',icon:'📚',earned:s.words>=30},
+    {id:'champion',name:'แชมเปี้ยน',icon:'🥇',earned:s.pass>=20},
+  ];
+}
+
+// Get last N weekdays as date strings
+function getRecentWeekdays(n){
+  const days=[];const d=new Date();
+  while(days.length<n){
+    if(d.getDay()!==0&&d.getDay()!==6) days.unshift(d.toISOString().split('T')[0]);
+    d.setDate(d.getDate()-1);
+  }
+  return days;
+}
+
+function formatDateTH(ds){
+  const d=new Date(ds+'T00:00:00');
+  return d.toLocaleDateString('th-TH',{day:'numeric',month:'short',year:'numeric'});
+}
+function formatDayShort(ds){
+  const d=new Date(ds+'T00:00:00');
+  const days=['อา','จ','อ','พ','พฤ','ศ','ส'];
+  return days[d.getDay()];
+}
+
+// ====== RENDER ======
+function render(){
+  const app=document.getElementById('app');
+  if(!state.user){app.innerHTML=renderLogin();bindLogin();return;}
+  app.innerHTML=`<div class="app-wrap">${renderTopNav()}<div id="page-content">${renderPage()}</div>${renderBottomNav()}</div>`;
+  bindAll();
+}
+
+function renderLogin(){
+  return`<div class="login-page">
+    <div class="login-hero">📖</div>
+    <div class="login-title">ระบบเช็คการท่องคำศัพท์<br>ภาษาอังกฤษ</div>
+    <div class="login-subtitle">โรงเรียนประถมสุขสันต์ • ป.3</div>
+    <div class="login-card">
+      <div class="login-role-tabs">
+        <div class="role-tab active" data-role="student"><span class="tab-icon">🧑‍🎓</span>นักเรียน</div>
+        <div class="role-tab" data-role="teacher"><span class="tab-icon">👩‍🏫</span>ครู</div>
+        <div class="role-tab" data-role="admin"><span class="tab-icon">👑</span>แอดมิน</div>
+      </div>
+      <div class="form-group"><label class="form-label">ชื่อผู้ใช้</label><input class="form-input" id="login-user" type="text" placeholder="กรอกชื่อผู้ใช้"></div>
+      <div class="form-group"><label class="form-label">รหัสผ่าน</label><input class="form-input" id="login-pass" type="password" placeholder="กรอกรหัสผ่าน"></div>
+      <button class="btn-login" id="login-btn">เข้าสู่ระบบ 🚀</button>
+      <div class="login-error" id="login-err"></div>
+      <div class="login-hint"><strong>ทดลองเข้าใช้:</strong>
+        <p>🧑‍🎓 mali001 / mali001</p><p>👩‍🏫 teacher1 / teacher1</p><p>👑 admin / admin123</p>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderTopNav(){
+  const u=state.user;
+  const roleMap={admin:'ผู้ดูแลระบบ',teacher:'ครู',student:'นักเรียน'};
+  return`<div class="top-nav">
+    <div class="nav-left">
+      <div class="nav-avatar" style="background:${u.color}20;font-size:22px">${u.avatar}</div>
+      <div><div class="nav-name">${u.name}</div><span class="nav-role-badge">${roleMap[u.role]}</span></div>
+    </div>
+    <div><button class="nav-btn nav-logout" id="btn-logout">ออกจากระบบ</button></div>
+  </div>`;
+}
+
+function renderBottomNav(){
+  const u=state.user;
+  let items=u.role==='student'?[
+    {page:'dashboard',icon:'🏠',label:'หน้าหลัก'},
+    {page:'calendar',icon:'📅',label:'ปฏิทิน'},
+    {page:'words',icon:'📖',label:'คำศัพท์'},
+    {page:'quiz',icon:'🎯',label:'ทดสอบ'},
+  ]:u.role==='teacher'?[
+    {page:'dashboard',icon:'🏠',label:'หน้าหลัก'},
+    {page:'students',icon:'👥',label:'นักเรียน'},
+    {page:'record',icon:'✏️',label:'บันทึก'},
+    {page:'report',icon:'📊',label:'รายงาน'},
+    {page:'manage',icon:'⚙️',label:'จัดการข้อมูล'},
+    {page:'words',icon:'📖',label:'คำศัพท์'},
+  ]:[
+    {page:'dashboard',icon:'🏠',label:'หน้าหลัก'},
+    {page:'students',icon:'👥',label:'นักเรียน'},
+    {page:'report',icon:'📊',label:'รายงาน'},
+    {page:'manage',icon:'⚙️',label:'จัดการข้อมูล'},
+    {page:'words',icon:'📖',label:'คำศัพท์'},
+  ];
+  return`<div class="bottom-nav">${items.map(i=>`
+    <button class="nav-item ${state.page===i.page?'active':''}" data-page="${i.page}">
+      <span class="nav-icon">${i.icon}</span>${i.label}
+    </button>`).join('')}</div>`;
+}
+
+function renderPage(){
+  switch(state.page){
+    case 'dashboard': return renderDashboard();
+    case 'students': return renderStudents();
+    case 'student-detail': return renderStudentDetail();
+    case 'calendar': return renderCalendar();
+    case 'record': return renderRecord();
+    case 'report': return renderReport();
+    case 'words': return renderWords();
+    case 'quiz': return renderQuiz();
+    case 'manage': return renderManage();
+    default: return renderDashboard();
+  }
+}
+
+// ---- DASHBOARD ----
+function renderDashboard(){
+  const u=state.user;
+  if(u.role==='student') return renderStudentDashboard(u);
+  if(u.role==='teacher') return renderTeacherDashboard(u);
+  return renderAdminDashboard(u);
+}
+
+function renderStudentDashboard(u){
+  const s=getStudentStats(u.id);
+  const todayStr=new Date().toISOString().split('T')[0];
+  const todayRec=state.records[todayStr];
+  const todaySt=todayRec?.studentResults?.[u.id]?.status;
+  return`
+  <div class="card" style="background:linear-gradient(135deg,#e0f7fa,#fce4ec);border-radius:24px">
+    <div style="text-align:center">
+      <div style="font-size:64px;margin-bottom:8px;animation:bounce 2s infinite">${u.photo||u.avatar}</div>
+      <div style="font-size:20px;font-weight:700;color:var(--sky-dark)">${u.name}</div>
+      <div style="font-size:13px;color:var(--text-light)">${u.grade} ห้อง ${u.room} เลขที่ ${u.number}</div>
+      ${todaySt?`<div style="margin-top:10px"><span class="badge ${todaySt==='pass'?'badge-pass':todaySt==='practice'?'badge-practice':'badge-fail'}">วันนี้: ${getStatusEmoji(todaySt)} ${getStatusText(todaySt)}</span></div>`:''}
+    </div>
+  </div>
+  <div class="stats-grid">
+    <div class="stat-card stat-sky"><span class="stat-icon">⭐</span><span class="stat-num">${s.stars}</span><div class="stat-label">ดาวสะสม</div></div>
+    <div class="stat-card stat-mint"><span class="stat-icon">✅</span><span class="stat-num">${s.pass}</span><div class="stat-label">วันที่ผ่าน</div></div>
+    <div class="stat-card stat-yellow"><span class="stat-icon">📚</span><span class="stat-num">${s.words}</span><div class="stat-label">คำศัพท์ที่ท่องได้</div></div>
+    <div class="stat-card stat-pink"><span class="stat-icon">📅</span><span class="stat-num">${s.total}</span><div class="stat-label">วันที่บันทึก</div></div>
+  </div>
+  <div class="card">
+    <div class="card-title"><span>🏆</span>รางวัลที่ได้รับ</div>
+    <div class="achievement-grid">${getAchievements(u.id).map(a=>`
+      <div class="achievement ${a.earned?'earned':'not-earned'}" style="background:${a.earned?'linear-gradient(135deg,#fffde7,#fff9c4)':'#f5f5f5'};border-radius:14px">
+        <span class="ach-icon">${a.icon}</span><div class="ach-name">${a.name}</div>
+      </div>`).join('')}
+    </div>
+  </div>
+  ${renderMiniCalendar(u.id)}`;
+}
+
+function renderMiniCalendar(sid){
+  const today=new Date();const y=today.getFullYear(),m=today.getMonth();
+  const days=getDaysInMonth(y,m);const firstDay=getFirstDayOfMonth(y,m);
+  const dayNames=['อา','จ','อ','พ','พฤ','ศ','ส'];
+  let cells='';
+  for(let i=0;i<firstDay;i++) cells+=`<div class="cal-day" style="background:transparent"></div>`;
+  for(let d=1;d<=days;d++){
+    const ds=`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const rec=state.records[ds];const st=rec?.studentResults?.[sid]?.status;
+    const isToday=d===today.getDate();
+    cells+=`<div class="cal-day ${st?getStatusClass(st):'empty-day'} ${isToday?'today':''}">${d}${st?`<span class="has-data"></span>`:''}</div>`;
+  }
+  return`<div class="card"><div class="card-title"><span>📅</span>ปฏิทินเดือนนี้</div>
+    <div class="cal-grid">${dayNames.map(d=>`<div class="cal-header">${d}</div>`).join('')}${cells}</div>
+    <div style="display:flex;gap:10px;margin-top:12px;font-size:12px;flex-wrap:wrap">
+      <span><span class="status-dot dot-pass"></span> ผ่าน</span>
+      <span><span class="status-dot dot-practice"></span> ต้องฝึกเพิ่ม</span>
+      <span><span class="status-dot dot-fail"></span> ยังไม่ผ่าน</span>
+    </div>
+  </div>`;
+}
+
+function renderTeacherDashboard(u){
+  const myStudents=state.students.filter(s=>s.room===u.room);
+  const todayStr=new Date().toISOString().split('T')[0];
+  const todayRec=state.records[todayStr];
+  let p=0,pr=0,f=0,n=0;
+  myStudents.forEach(s=>{const st=todayRec?.studentResults?.[s.id]?.status;if(st==='pass')p++;else if(st==='practice')pr++;else if(st==='fail')f++;else n++;});
+  return`
+  <div class="card" style="background:linear-gradient(135deg,#e0f7fa,#e8f5e9)">
+    <div class="card-title"><span>👩‍🏫</span>สวัสดี, ${u.name}</div>
+    <div style="font-size:13px;color:var(--text-light)">ห้อง ${u.room} • นักเรียน ${myStudents.length} คน</div>
+    <div style="margin-top:10px">
+      <div style="font-size:12px;color:var(--text-light);margin-bottom:6px">ผลการท่องวันนี้</div>
+      <div class="progress-bar"><div class="progress-fill" style="width:${p?Math.round(p/myStudents.length*100):0}%;background:linear-gradient(90deg,#66bb6a,#43a047)"></div></div>
+      <div style="font-size:12px;color:var(--text-light);margin-top:4px">ผ่าน ${p} / ${myStudents.length} คน</div>
+    </div>
+  </div>
+  <div class="stats-grid">
+    <div class="stat-card stat-mint"><span class="stat-icon">✅</span><span class="stat-num">${p}</span><div class="stat-label">ผ่านวันนี้</div></div>
+    <div class="stat-card stat-yellow"><span class="stat-icon">💛</span><span class="stat-num">${pr}</span><div class="stat-label">ต้องฝึกเพิ่ม</div></div>
+    <div class="stat-card stat-pink"><span class="stat-icon">❌</span><span class="stat-num">${f}</span><div class="stat-label">ยังไม่ผ่าน</div></div>
+    <div class="stat-card stat-sky"><span class="stat-icon">⏳</span><span class="stat-num">${n}</span><div class="stat-label">ยังไม่บันทึก</div></div>
+  </div>
+  <div class="card">
+    <div class="card-title"><span>👥</span>นักเรียนในห้อง</div>
+    ${myStudents.map(s=>{const st=todayRec?.studentResults?.[s.id]?.status;return`
+      <div class="record-row" data-student="${s.id}">
+        <div style="display:flex;align-items:center;gap:10px">
+          <div style="width:36px;height:36px;border-radius:50%;background:${s.color};display:flex;align-items:center;justify-content:center;font-size:20px">${s.photo||s.avatar}</div>
+          <div><div style="font-size:13px;font-weight:600">${s.name}</div><div style="font-size:11px;color:var(--text-light)">เลขที่ ${s.number}</div></div>
+        </div>
+        <span class="badge ${st==='pass'?'badge-pass':st==='practice'?'badge-practice':st==='fail'?'badge-fail':'badge-none'}">${getStatusEmoji(st)} ${getStatusText(st)}</span>
+      </div>`;}).join('')}
+  </div>
+  <button class="btn btn-primary" style="width:100%;padding:14px;font-size:15px" data-page="record">✏️ บันทึกการท่องวันนี้</button>`;
+}
+
+function renderAdminDashboard(u){
+  const todayStr=new Date().toISOString().split('T')[0];
+  const todayRec=state.records[todayStr];
+  let totalPass=0;
+  state.students.forEach(s=>{if(todayRec?.studentResults?.[s.id]?.status==='pass') totalPass++;});
+  const rooms=[...new Set(state.students.map(s=>s.room))];
+  return`
+  <div class="card" style="background:linear-gradient(135deg,#f3e5f5,#fce4ec)">
+    <div class="card-title"><span>👑</span>แดชบอร์ดผู้ดูแลระบบ</div>
+    <div style="font-size:13px;color:var(--text-light)">โรงเรียนประถมสุขสันต์ • ภาคเรียนที่ 1/2567</div>
+  </div>
+  <div class="stats-grid">
+    <div class="stat-card stat-sky"><span class="stat-icon">👥</span><span class="stat-num">${state.students.length}</span><div class="stat-label">นักเรียนทั้งหมด</div></div>
+    <div class="stat-card stat-mint"><span class="stat-icon">🏫</span><span class="stat-num">${rooms.length}</span><div class="stat-label">ห้องเรียน</div></div>
+    <div class="stat-card stat-yellow"><span class="stat-icon">📚</span><span class="stat-num">${ALL_WORDS.length}</span><div class="stat-label">คำศัพท์ทั้งหมด</div></div>
+    <div class="stat-card stat-pink"><span class="stat-icon">✅</span><span class="stat-num">${totalPass}</span><div class="stat-label">ผ่านวันนี้</div></div>
+  </div>
+  <div class="card">
+    <div class="card-title"><span>🏆</span>อันดับดาวสะสม</div>
+    ${[...state.students].sort((a,b)=>getStudentStats(b.id).stars-getStudentStats(a.id).stars).slice(0,5).map((s,i)=>{
+      const st=getStudentStats(s.id);
+      return`<div class="leader-row">
+        <div class="leader-rank ${i===0?'rank-1':i===1?'rank-2':i===2?'rank-3':'rank-other'}">${i+1}</div>
+        <div style="font-size:20px">${s.photo||s.avatar}</div>
+        <div style="flex:1"><div style="font-size:13px;font-weight:600">${s.name}</div><div style="font-size:11px;color:var(--text-light)">${s.room}</div></div>
+        <div style="text-align:right"><div style="font-size:16px;font-weight:700;color:var(--yellow-dark)">⭐ ${st.stars}</div><div style="font-size:11px;color:var(--text-light)">ผ่าน ${st.pass} วัน</div></div>
+      </div>`;}).join('')}
+  </div>`;
+}
+
+// ---- STUDENTS ----
+function renderStudents(){
+  const u=state.user;
+  let list=u.role==='teacher'?state.students.filter(s=>s.room===u.room):state.students;
+  if(state.searchQ) list=list.filter(s=>s.name.includes(state.searchQ)||s.username.includes(state.searchQ));
+  return`
+  <div class="search-bar"><span>🔍</span><input type="text" placeholder="ค้นหาชื่อนักเรียน..." value="${state.searchQ}" id="search-input"></div>
+  <div class="students-grid">${list.map(s=>{
+    const st=getStudentStats(s.id);
+    const today=new Date().toISOString().split('T')[0];
+    const todaySt=state.records[today]?.studentResults?.[s.id]?.status;
+    return`<div class="student-card" data-student="${s.id}">
+      <div class="student-avatar" style="background:${s.color}">${s.photo||s.avatar}</div>
+      <div class="student-name">${s.name.replace('เด็กหญิง','ด.ญ.').replace('เด็กชาย','ด.ช.')}</div>
+      <div class="student-info">${s.grade} ห้อง ${s.room} เลขที่ ${s.number}</div>
+      <div class="student-stars">⭐ ${st.stars} ดาว</div>
+      ${todaySt?`<div style="margin-top:6px"><span class="badge ${todaySt==='pass'?'badge-pass':todaySt==='practice'?'badge-practice':'badge-fail'}">${getStatusEmoji(todaySt)}</span></div>`:''}
+    </div>`;}).join('')}
+  </div>`;
+}
+
+// ---- STUDENT DETAIL ----
+function renderStudentDetail(){
+  const s=state.selectedStudent;if(!s) return '';
+  const st=getStudentStats(s.id);
+  const records=Object.entries(state.records).filter(([,r])=>r.studentResults&&r.studentResults[s.id]).sort((a,b)=>b[0].localeCompare(a[0])).slice(0,10);
+  return`
+  <button class="btn btn-ghost btn-sm" id="btn-back" style="margin-bottom:12px">← กลับ</button>
+  <div class="card" style="background:linear-gradient(135deg,${s.color}15,${s.color}08)">
+    <div style="display:flex;align-items:center;gap:16px">
+      <div style="width:64px;height:64px;border-radius:50%;background:${s.color};display:flex;align-items:center;justify-content:center;font-size:36px">${s.photo||s.avatar}</div>
+      <div>
+        <div style="font-size:18px;font-weight:700;color:var(--text)">${s.name}</div>
+        <div style="font-size:13px;color:var(--text-light)">${s.grade} ห้อง ${s.room} เลขที่ ${s.number}</div>
+        <div style="font-size:12px;color:var(--text-light)">username: ${s.username}</div>
+      </div>
+    </div>
+  </div>
+  <div class="stats-grid">
+    <div class="stat-card stat-sky"><span class="stat-icon">⭐</span><span class="stat-num">${st.stars}</span><div class="stat-label">ดาวสะสม</div></div>
+    <div class="stat-card stat-mint"><span class="stat-icon">✅</span><span class="stat-num">${st.pass}</span><div class="stat-label">วันที่ผ่าน</div></div>
+    <div class="stat-card stat-yellow"><span class="stat-icon">📚</span><span class="stat-num">${st.words}</span><div class="stat-label">คำศัพท์ที่ท่องได้</div></div>
+    <div class="stat-card stat-pink"><span class="stat-icon">📅</span><span class="stat-num">${st.total}</span><div class="stat-label">วันที่บันทึก</div></div>
+  </div>
+  <div class="card">
+    <div class="card-title"><span>🏆</span>รางวัล</div>
+    <div class="achievement-grid">${getAchievements(s.id).map(a=>`
+      <div class="achievement ${a.earned?'earned':'not-earned'}" style="background:${a.earned?'linear-gradient(135deg,#fffde7,#fff9c4)':'#f5f5f5'};border-radius:14px;padding:10px">
+        <span class="ach-icon">${a.icon}</span><div class="ach-name">${a.name}</div>
+      </div>`).join('')}
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title"><span>📋</span>ประวัติการท่อง</div>
+    ${records.map(([date,rec])=>{
+      const r=rec.studentResults[s.id];
+      const words=rec.words?rec.words.slice(0,3).map(wid=>ALL_WORDS.find(w=>w.id===wid)).filter(Boolean).map(w=>w.emoji+w.english).join(' '):'';
+      return`<div class="record-row">
+        <div>
+          <div style="font-size:13px;font-weight:600">${formatDateTH(date)}</div>
+          <div style="font-size:11px;color:var(--text-light)">${words}${rec.words&&rec.words.length>3?'...':''}</div>
+          ${r.note?`<div style="font-size:11px;color:var(--sky-dark);margin-top:2px">💬 ${r.note}</div>`:''}
+        </div>
+        <span class="badge ${r.status==='pass'?'badge-pass':r.status==='practice'?'badge-practice':r.status==='fail'?'badge-fail':'badge-none'}">${getStatusEmoji(r.status)} ${getStatusText(r.status)}</span>
+      </div>`;}).join('')}
+  </div>`;
+}
+
+
+function renderManage(){
+ if(state.user.role!=='admin') return '<div class="card">ไม่มีสิทธิ์ใช้งาน</div>';
+ return `<div class="card">
+ <div class="card-title"><span>⚙️</span>จัดการครูและนักเรียน</div>
+ <p style="margin-bottom:10px">แก้ไขชื่อครู เพิ่ม/ลบนักเรียน</p>
+ <div style="margin-bottom:12px">
+ <input id="teacher-name-edit" class="form-input" value="${USERS.find(u=>u.id==='t1')?.name||''}">
+ <button class="btn btn-primary" id="save-teacher-name" style="margin-top:8px">บันทึกชื่อครูหลัก</button>
+ </div>
+ <hr style="margin:10px 0">
+ <div id="student-list-admin">
+ ${state.students.map(s=>`<div class="record-row">
+ <span>${s.name}</span>
+ <button class="btn btn-danger btn-sm del-student" data-sid="${s.id}">ลบ</button>
+ </div>`).join('')}
+ </div>
+ <div style="margin-top:12px">
+ <input id="new-student-name" class="form-input" placeholder="ชื่อนักเรียนใหม่">
+ <button class="btn btn-primary" id="add-student-btn" style="margin-top:8px">เพิ่มนักเรียน</button>
+ </div>
+ </div>`;
+}
+
+// ---- CALENDAR ----
+function renderCalendar(){
+  const u=state.user;const sid=u.role==='student'?u.id:null;
+  const cm=state.calMonth;const y=cm.getFullYear(),m=cm.getMonth();
+  const days=getDaysInMonth(y,m);const firstDay=getFirstDayOfMonth(y,m);
+  const today=new Date();
+  const dayNames=['อา','จ','อ','พ','พฤ','ศ','ส'];
+  const monthNames=['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
+  let cells='';
+  for(let i=0;i<firstDay;i++) cells+=`<div class="cal-day" style="background:transparent;cursor:default"></div>`;
+  for(let d=1;d<=days;d++){
+    const ds=`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const rec=state.records[ds];
+    let cls='empty-day';
+    if(sid&&rec?.studentResults?.[sid]) cls=getStatusClass(rec.studentResults[sid].status);
+    else if(!sid&&rec){const r=Object.values(rec.studentResults||{});const pc=r.filter(x=>x.status==='pass').length;if(r.length>0) cls=pc>r.length/2?'pass':'practice';}
+    const isToday=d===today.getDate()&&m===today.getMonth()&&y===today.getFullYear();
+    cells+=`<div class="cal-day ${rec?cls:''} ${isToday?'today':''}" data-date="${ds}">${d}${rec?`<span class="has-data"></span>`:''}</div>`;
+  }
+  const sel=state.selectedDate&&state.records[state.selectedDate];
+  let detail='';
+  if(sel){
+    const rec=state.records[state.selectedDate];
+    const words=rec.words?rec.words.map(wid=>ALL_WORDS.find(w=>w.id===wid)).filter(Boolean):[];
+    detail=`<div class="card" style="animation:pop .3s ease">
+      <div class="card-title"><span>📅</span>${formatDateTH(state.selectedDate)}</div>
+      <div style="font-size:13px;color:var(--text-light);margin-bottom:10px">คำศัพท์ ${rec.wordCount||0} คำ</div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px">${words.map(w=>`<span style="background:var(--sky-light);color:var(--sky-dark);padding:4px 10px;border-radius:20px;font-size:12px">${w.emoji} ${w.english}</span>`).join('')}</div>
+      ${sid?`<div class="record-row" style="justify-content:space-between"><div style="font-weight:600">ผลการท่อง</div><span class="badge ${rec.studentResults[sid]?.status==='pass'?'badge-pass':rec.studentResults[sid]?.status==='practice'?'badge-practice':'badge-fail'}">${getStatusEmoji(rec.studentResults[sid]?.status)} ${getStatusText(rec.studentResults[sid]?.status)}</span></div>`:''}
+    </div>`;
+  }
+  return`<div class="card">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+      <button class="btn btn-ghost btn-sm" id="cal-prev">◀</button>
+      <div style="font-weight:700;font-size:16px;color:var(--text)">${monthNames[m]} ${y+543}</div>
+      <button class="btn btn-ghost btn-sm" id="cal-next">▶</button>
+    </div>
+    <div class="cal-grid">${dayNames.map(d=>`<div class="cal-header">${d}</div>`).join('')}${cells}</div>
+    <div style="display:flex;gap:12px;margin-top:12px;font-size:12px;flex-wrap:wrap">
+      <span><span class="status-dot dot-pass"></span> ผ่าน</span>
+      <span><span class="status-dot dot-practice"></span> ต้องฝึกเพิ่ม</span>
+      <span><span class="status-dot dot-fail"></span> ยังไม่ผ่าน</span>
+    </div>
+  </div>${detail}`;
+}
+
+// ---- RECORD ----
+function renderRecord(){
+  const u=state.user;
+  const todayStr=new Date().toISOString().split('T')[0];
+  const myStudents=state.students.filter(s=>s.room===u.room);
+  const todayRec=state.records[todayStr]||{date:todayStr,words:[],wordCount:0,studentResults:{}};
+  return`
+  <div class="card">
+    <div class="card-title"><span>✏️</span>บันทึกการท่องคำศัพท์</div>
+    <div style="font-size:13px;color:var(--text-light);margin-bottom:16px">วันที่: ${new Date().toLocaleDateString('th-TH',{weekday:'long',day:'numeric',month:'long',year:'numeric'})}</div>
+    <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:8px">คำศัพท์ที่ใช้วันนี้ <span style="color:var(--text-light);font-weight:400">(เลือกจากคลัง)</span></div>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px">
+      ${ALL_WORDS.slice(0,20).map(w=>{
+        const selected=todayRec.words&&todayRec.words.includes(w.id);
+        return`<div class="word-toggle" data-word="${w.id}" style="padding:6px 12px;border-radius:20px;border:2px solid ${selected?'var(--sky)':'#e0e0e0'};background:${selected?'var(--sky-light)':'#f5f5f5'};cursor:pointer;font-size:12px;transition:.2s;user-select:none">${w.emoji} ${w.english}</div>`;
+      }).join('')}
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title"><span>👥</span>บันทึกผลนักเรียน</div>
+    ${myStudents.map(s=>{
+      const r=todayRec.studentResults[s.id]||{status:null,note:''};
+      return`<div style="background:#fafafa;border-radius:14px;padding:12px;margin-bottom:10px">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+          <div style="width:36px;height:36px;border-radius:50%;background:${s.color};display:flex;align-items:center;justify-content:center;font-size:20px">${s.photo||s.avatar}</div>
+          <div><div style="font-size:13px;font-weight:600">${s.name}</div><div style="font-size:11px;color:var(--text-light)">เลขที่ ${s.number}</div></div>
+        </div>
+        <div class="status-picker">
+          <div class="status-opt ${r.status==='pass'?'sel-pass':''}" data-sid="${s.id}" data-status="pass">🟢 ผ่าน</div>
+          <div class="status-opt ${r.status==='practice'?'sel-practice':''}" data-sid="${s.id}" data-status="practice">🟡 ต้องฝึก</div>
+          <div class="status-opt ${r.status==='fail'?'sel-fail':''}" data-sid="${s.id}" data-status="fail">🔴 ไม่ผ่าน</div>
+        </div>
+        <input type="text" class="form-input note-input" placeholder="หมายเหตุ (ถ้ามี)" data-sid="${s.id}" value="${r.note||''}" style="margin-top:8px;padding:8px 12px;font-size:12px">
+      </div>`;}).join('')}
+    <button class="btn btn-primary" style="width:100%;padding:14px;margin-top:8px" id="btn-save-record">💾 บันทึกผล</button>
+    <div id="save-msg" style="text-align:center;font-size:13px;color:var(--mint-dark);margin-top:8px;min-height:20px"></div>
+  </div>`;
+}
+
+// ---- REPORT ----
+function renderReport(){
+  const u=state.user;
+  const myStudents=u.role==='teacher'?state.students.filter(s=>s.room===u.room):state.students;
+  const days7=[];const today=new Date();
+  for(let i=6;i>=0;i--){const d=new Date(today);d.setDate(d.getDate()-i);days7.push(d);}
+  return`
+  <div class="tabs">
+    <button class="tab ${state.reportTab==='week'?'active':''}" data-rtab="week">รายสัปดาห์</button>
+    <button class="tab ${state.reportTab==='month'?'active':''}" data-rtab="month">รายเดือน</button>
+    <button class="tab ${state.reportTab==='rank'?'active':''}" data-rtab="rank">อันดับ</button>
+  </div>
+  ${state.reportTab==='week'?renderWeekReport(myStudents,days7):state.reportTab==='month'?renderMonthReport(myStudents):renderRankReport(myStudents)}
+  <button class="btn btn-ghost" style="width:100%;margin-top:8px" onclick="window.print()">🖨️ พิมพ์รายงาน</button>`;
+}
+function renderWeekReport(students,days7){
+  return`<div class="card" style="overflow-x:auto">
+    <div class="card-title"><span>📊</span>สรุปผลรายสัปดาห์</div>
+    <table class="report-table"><thead><tr><th style="text-align:left">ชื่อ</th>${days7.map(d=>`<th>${d.toLocaleDateString('th-TH',{day:'numeric',month:'short'})}</th>`).join('')}<th>%ผ่าน</th></tr></thead>
+    <tbody>${students.map(s=>{
+      const rows=days7.map(d=>{const ds=d.toISOString().split('T')[0];const st=state.records[ds]?.studentResults?.[s.id]?.status;return`<td>${getStatusEmoji(st)}</td>`;}).join('');
+      const st=getStudentStats(s.id);const pct=st.total?Math.round(st.pass/st.total*100):0;
+      return`<tr><td style="text-align:left;font-size:12px">${s.name.replace('เด็กหญิง','ด.ญ.').replace('เด็กชาย','ด.ช.')}</td>${rows}<td style="font-weight:700;color:${pct>=70?'#2e7d32':pct>=40?'#f57f17':'#c62828'}">${pct}%</td></tr>`;}).join('')}
+    </tbody></table>
+  </div>`;
+}
+function renderMonthReport(students){
+  return`<div class="card"><div class="card-title"><span>📈</span>สรุปผลรายเดือน</div>
+    ${students.map(s=>{const st=getStudentStats(s.id);const pct=st.total?Math.round(st.pass/st.total*100):0;
+      return`<div style="margin-bottom:14px">
+        <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+          <div style="font-size:13px;font-weight:600">${s.name.replace('เด็กหญิง','ด.ญ.').replace('เด็กชาย','ด.ช.')}</div>
+          <div style="font-size:13px;color:var(--text-light)">⭐ ${st.stars}</div>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" style="width:${pct}%;background:${pct>=70?'linear-gradient(90deg,#66bb6a,#43a047)':pct>=40?'linear-gradient(90deg,#ffca28,#ffa000)':'linear-gradient(90deg,#ef5350,#c62828)'}"></div></div>
+        <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text-light);margin-top:3px"><span>ผ่าน ${st.pass} / ${st.total} วัน</span><span>${pct}%</span></div>
+      </div>`;}).join('')}
+  </div>`;
+}
+function renderRankReport(students){
+  return`<div class="card"><div class="card-title"><span>🏆</span>อันดับดาวสะสม</div>
+    ${[...students].sort((a,b)=>getStudentStats(b.id).stars-getStudentStats(a.id).stars).map((s,i)=>{const st=getStudentStats(s.id);
+      return`<div class="leader-row">
+        <div class="leader-rank ${i===0?'rank-1':i===1?'rank-2':i===2?'rank-3':'rank-other'}">${i+1}</div>
+        <div style="font-size:24px">${s.photo||s.avatar}</div>
+        <div style="flex:1"><div style="font-size:13px;font-weight:600">${s.name.replace('เด็กหญิง','ด.ญ.').replace('เด็กชาย','ด.ช.')}</div><div style="font-size:11px;color:var(--text-light)">ห้อง ${s.room}</div></div>
+        <div style="text-align:right"><div style="font-size:16px;font-weight:700;color:#f57f17">⭐ ${st.stars}</div><div style="font-size:11px;color:var(--text-light)">✅ ${st.pass} วัน</div></div>
+      </div>`;}).join('')}
+  </div>`;
+}
+
+// ====================================================
+// ---- WORDS PAGE — date-based, teacher records ----
+// ====================================================
+function renderWords(){
+  const u=state.user;
+  const isTeacher=u.role==='teacher'||u.role==='admin';
+  const recentDays=getRecentWeekdays(10);
+  // Ensure current view date is valid
+  if(!recentDays.includes(state.vocabViewDate)) state.vocabViewDate=recentDays[recentDays.length-1];
+  const vd=state.vocabViewDate;
+  const recForDate=state.records[vd]||{words:[]};
+  const wordsForDate=(recForDate.words||[]).map(wid=>ALL_WORDS.find(w=>w.id===wid)).filter(Boolean);
+
+  return`
+  <!-- DATE STRIP -->
+  <div class="card" style="padding:14px">
+    <div class="card-title" style="margin-bottom:10px"><span>📅</span>เลือกวันที่</div>
+    <div class="date-strip" id="date-strip">
+      ${recentDays.map(ds=>{
+        const d=new Date(ds+'T00:00:00');
+        const isToday=ds===new Date().toISOString().split('T')[0];
+        const rec=state.records[ds];
+        const cnt=rec&&rec.words?rec.words.length:0;
+        return`<div class="date-chip ${ds===vd?'active':''}" data-vdate="${ds}">
+          <span class="chip-date">${d.getDate()}</span>
+          <span class="chip-day">${formatDayShort(ds)}${isToday?' (วันนี้)':''}</span>
+          <span class="chip-count">${cnt>0?cnt+' คำ':'ยังไม่มี'}</span>
+        </div>`;
+      }).join('')}
+    </div>
+    <div style="font-size:13px;font-weight:600;color:var(--text);margin-top:8px">
+      📆 ${formatDateTH(vd)}
+      <span style="font-size:12px;color:var(--text-light);font-weight:400;margin-left:8px">${wordsForDate.length} คำ</span>
+    </div>
+  </div>
+
+  ${isTeacher?`
+  <!-- ADD WORD BUTTON/FORM -->
+  ${state.vocabShowAddForm?renderAddWordForm(vd):`
+  <div style="display:flex;gap:8px;margin-bottom:16px">
+    <button class="btn btn-primary" style="flex:1;padding:12px" id="btn-show-add-form">+ เพิ่มคำศัพท์วันนี้</button>
+    <button class="btn btn-ghost" style="padding:12px" id="btn-add-from-bank">📚 เลือกจากคลัง</button>
+  </div>`}`:''}
+
+  <!-- WORD LIST FOR DATE -->
+  <div class="card">
+    <div class="card-title"><span>📖</span>คำศัพท์วันที่ ${formatDateTH(vd)}</div>
+    ${wordsForDate.length===0?`
+      <div class="empty-state">
+        <span class="empty-icon">📭</span>
+        <p>${isTeacher?'ยังไม่มีคำศัพท์ กดปุ่ม "เพิ่มคำศัพท์" เพื่อเพิ่มคำศัพท์สำหรับวันนี้':'ยังไม่มีคำศัพท์สำหรับวันนี้'}</p>
+      </div>`
+    :wordsForDate.map((w,idx)=>`
+      <div class="word-list-card">
+        <div class="word-emoji-big">${w.emoji}</div>
+        <div style="flex:1">
+          <div class="word-english-big">${w.english}</div>
+          <div class="word-thai-big">${w.thai}</div>
+          <span class="word-cat-tag">${w.category}</span>
+        </div>
+        <div class="word-actions">
+          <button class="icon-btn icon-btn-speak" data-speak="${w.english}" title="ฟังเสียง">🔊</button>
+          ${isTeacher?`<button class="icon-btn icon-btn-del" data-del-word="${w.id}" data-del-date="${vd}" title="ลบ">🗑️</button>`:''}
+        </div>
+      </div>`).join('')}
+  </div>
+
+  ${!isTeacher&&wordsForDate.length>0?`
+  <!-- STUDENT QUICK QUIZ SHORTCUT -->
+  <div style="text-align:center;margin-bottom:16px">
+    <button class="btn btn-primary" style="padding:12px 28px" data-page="quiz">🎯 ทดสอบคำศัพท์วันนี้</button>
+  </div>`:''}
+  `;
+}
+
+function renderAddWordForm(vd){
+  const cats=[...new Set(ALL_WORDS.map(w=>w.category))];
+  return`<div class="add-word-form">
+    <div style="font-size:15px;font-weight:700;color:var(--sky-dark);margin-bottom:14px">✏️ เพิ่มคำศัพท์ใหม่</div>
+    <div class="add-word-row">
+      <div><span class="field-label">คำศัพท์ภาษาอังกฤษ</span><input class="field-input" id="new-english" placeholder="เช่น apple" value="${state.newWord.english}"></div>
+      <div><span class="field-label">ความหมายภาษาไทย</span><input class="field-input" id="new-thai" placeholder="เช่น แอปเปิ้ล" value="${state.newWord.thai}"></div>
+    </div>
+    <div class="add-word-row">
+      <div>
+        <span class="field-label">หมวดหมู่</span>
+        <select id="new-category">
+          <option value="">-- เลือกหมวดหมู่ --</option>
+          ${cats.map(c=>`<option value="${c}" ${state.newWord.category===c?'selected':''}>${c}</option>`).join('')}
+          <option value="__new">+ หมวดใหม่</option>
+        </select>
+      </div>
+      <div><span class="field-label">Emoji</span><input class="field-input" id="new-emoji" placeholder="เช่น 🍎" value="${state.newWord.emoji}" style="font-size:20px"></div>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:4px">
+      <button class="btn btn-primary" style="flex:1" id="btn-save-new-word">💾 บันทึกคำศัพท์</button>
+      <button class="btn btn-ghost" id="btn-cancel-add">ยกเลิก</button>
+    </div>
+    <div id="word-save-msg" style="font-size:13px;color:var(--mint-dark);margin-top:8px;min-height:16px"></div>
+  </div>`;
+}
+
+// ---- QUIZ ----
+function renderQuiz(){
+  const w=ALL_WORDS[state.quizIdx%ALL_WORDS.length];
+  const wrong=ALL_WORDS.filter(x=>x.id!==w.id).sort(()=>Math.random()-.5).slice(0,3);
+  const opts=[w,...wrong].sort(()=>Math.random()-.5);
+  return`
+  <div class="card" style="text-align:center">
+    <div style="font-size:13px;color:var(--text-light);margin-bottom:16px">ข้อที่ ${state.quizIdx+1} • คะแนน ${state.quizScore}/${state.quizTotal}</div>
+    <div style="font-size:56px;margin-bottom:12px">${w.emoji}</div>
+    <div style="font-size:28px;font-family:'Nunito',sans-serif;font-weight:800;color:var(--sky-dark);margin-bottom:8px">${w.english}</div>
+    <div style="font-size:14px;color:var(--text-light);margin-bottom:24px">คำนี้แปลว่าอะไร?</div>
+    ${opts.map(o=>`<button class="quiz-option ${state.quizAnswered?(o.id===w.id?'correct':o.thai===state.selectedAnswer&&o.id!==w.id?'wrong':''):''}
+    " data-quiz-ans="${o.thai}" data-correct="${o.id===w.id}" ${state.quizAnswered?'disabled':''}>${o.thai}</button>`).join('')}
+    ${state.quizAnswered?`<button class="btn btn-primary" style="width:100%;margin-top:12px" id="btn-next-quiz">คำถามถัดไป →</button>`:''}
+  </div>
+  <div class="card">
+    <div class="card-title"><span>📊</span>สถิติ</div>
+    <div style="display:flex;justify-content:space-between;font-size:14px">
+      <span>ถูก: <strong style="color:#2e7d32">${state.quizScore}</strong></span>
+      <span>ผิด: <strong style="color:#c62828">${state.quizTotal-state.quizScore}</strong></span>
+      <span>ทั้งหมด: <strong>${state.quizTotal}</strong></span>
+    </div>
+    <div class="progress-bar" style="margin-top:8px">
+      <div class="progress-fill" style="width:${state.quizTotal?Math.round(state.quizScore/state.quizTotal*100):0}%;background:linear-gradient(90deg,#66bb6a,#43a047)"></div>
+    </div>
+  </div>`;
+}
+
+// ====== BIND ======
+function bindLogin(){
+  document.querySelectorAll('.role-tab').forEach(t=>t.addEventListener('click',()=>{
+    document.querySelectorAll('.role-tab').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+  }));
+  document.getElementById('login-btn').addEventListener('click',doLogin);
+  document.getElementById('login-pass').addEventListener('keydown',e=>{if(e.key==='Enter') doLogin();});
+}
+function doLogin(){
+  const username=document.getElementById('login-user').value.trim();
+  const password=document.getElementById('login-pass').value.trim();
+  const role=document.querySelector('.role-tab.active').dataset.role;
+  const user=USERS.find(u=>u.username===username&&u.password===password&&u.role===role);
+  if(user){state.user=user;state.page='dashboard';render();}
+  else{document.getElementById('login-err').textContent='ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง';}
+}
+
+function bindAll(){
+  // LOGOUT
+  document.getElementById('btn-logout')?.addEventListener('click',()=>{state.user=null;state.page='dashboard';state.selectedStudent=null;render();});
+  // NAV
+  document.querySelectorAll('.nav-item[data-page],.btn[data-page]').forEach(el=>{
+    el.addEventListener('click',()=>{state.page=el.dataset.page;state.selectedStudent=null;render();});
+  });
+  // STUDENTS
+  document.querySelectorAll('.student-card[data-student],.record-row[data-student]').forEach(el=>{
+    el.addEventListener('click',()=>{state.selectedStudent=state.students.find(s=>s.id===el.dataset.student);state.page='student-detail';render();});
+  });
+  // BACK
+  document.getElementById('btn-back')?.addEventListener('click',()=>{state.selectedStudent=null;state.page=state.user.role==='student'?'dashboard':'students';render();});
+  // CALENDAR
+  document.getElementById('cal-prev')?.addEventListener('click',()=>{state.calMonth=new Date(state.calMonth.getFullYear(),state.calMonth.getMonth()-1,1);render();});
+  document.getElementById('cal-next')?.addEventListener('click',()=>{state.calMonth=new Date(state.calMonth.getFullYear(),state.calMonth.getMonth()+1,1);render();});
+  document.querySelectorAll('.cal-day[data-date]').forEach(el=>el.addEventListener('click',()=>{state.selectedDate=el.dataset.date;render();}));
+  // SEARCH
+  document.getElementById('search-input')?.addEventListener('input',e=>{state.searchQ=e.target.value;render();});
+  // REPORT TABS
+  document.querySelectorAll('[data-rtab]').forEach(el=>el.addEventListener('click',()=>{state.reportTab=el.dataset.rtab;render();}));
+
+  // ===== VOCAB PAGE BINDINGS =====
+  // Date chip select
+  document.querySelectorAll('.date-chip[data-vdate]').forEach(el=>{
+    el.addEventListener('click',()=>{state.vocabViewDate=el.dataset.vdate;state.vocabShowAddForm=false;render();});
+  });
+  // Show add form
+  document.getElementById('btn-show-add-form')?.addEventListener('click',()=>{state.vocabShowAddForm=true;state.newWord={english:'',thai:'',category:'',emoji:''};render();});
+  // Cancel add
+  document.getElementById('btn-cancel-add')?.addEventListener('click',()=>{state.vocabShowAddForm=false;render();});
+  // Quick bank picker
+  document.getElementById('btn-add-from-bank')?.addEventListener('click',()=>{
+    // Show an inline picker: toggle existing words from ALL_WORDS for this date
+    state.vocabShowAddForm=false;
+    // For quick add, show a word picker section
+    showBankPicker();
+  });
+  // Save new word
+  document.getElementById('btn-save-new-word')?.addEventListener('click',()=>{
+    const eng=(document.getElementById('new-english')?.value||'').trim();
+    const thai=(document.getElementById('new-thai')?.value||'').trim();
+    const cat=document.getElementById('new-category')?.value||'';
+    const emoji=(document.getElementById('new-emoji')?.value||'').trim();
+    if(!eng||!thai){document.getElementById('word-save-msg').textContent='⚠️ กรุณากรอกคำศัพท์และความหมาย';return;}
+    const vd=state.vocabViewDate;
+    if(!state.records[vd]) state.records[vd]={date:vd,words:[],wordCount:0,studentResults:{}};
+    const newId=Date.now();
+    ALL_WORDS.push({id:newId,english:eng,thai,category:cat||'อื่นๆ',emoji:emoji||'📝'});
+    state.records[vd].words=[...(state.records[vd].words||[]),newId];
+    state.records[vd].wordCount=state.records[vd].words.length;
+    state.newWord={english:'',thai:'',category:'',emoji:''};
+    state.vocabShowAddForm=false;
+    saveState();render();
+  });
+  // Track new word inputs (no re-render, just update state)
+  ['new-english','new-thai','new-emoji'].forEach(id=>{
+    document.getElementById(id)?.addEventListener('input',e=>{
+      const field=id.replace('new-','');
+      state.newWord[field]=e.target.value;
+    });
+  });
+  document.getElementById('new-category')?.addEventListener('change',e=>{state.newWord.category=e.target.value;});
+  // Delete word from date
+  document.querySelectorAll('[data-del-word]').forEach(el=>{
+    el.addEventListener('click',()=>{
+      const wid=parseInt(el.dataset.delWord);
+      const date=el.dataset.delDate;
+      if(!state.records[date]) return;
+      state.records[date].words=(state.records[date].words||[]).filter(id=>id!==wid);
+      state.records[date].wordCount=state.records[date].words.length;
+      saveState();render();
+    });
+  });
+  // Speak word
+  document.querySelectorAll('[data-speak]').forEach(el=>{
+    el.addEventListener('click',e=>{
+      e.stopPropagation();
+      if('speechSynthesis' in window){const u=new SpeechSynthesisUtterance(el.dataset.speak);u.lang='en-US';u.rate=0.8;speechSynthesis.speak(u);}
+    });
+  });
+  // RECORD page
+  document.querySelectorAll('.word-toggle[data-word]').forEach(el=>{
+    el.addEventListener('click',()=>{
+      const wid=parseInt(el.dataset.word);const todayStr=new Date().toISOString().split('T')[0];
+      if(!state.records[todayStr]) state.records[todayStr]={date:todayStr,words:[],wordCount:0,studentResults:{}};
+      const words=state.records[todayStr].words||[];
+      if(words.includes(wid)){state.records[todayStr].words=words.filter(w=>w!==wid);}else{state.records[todayStr].words=[...words,wid];}
+      state.records[todayStr].wordCount=state.records[todayStr].words.length;
+      el.style.borderColor=state.records[todayStr].words.includes(wid)?'var(--sky)':'#e0e0e0';
+      el.style.background=state.records[todayStr].words.includes(wid)?'var(--sky-light)':'#f5f5f5';
+    });
+  });
+  document.querySelectorAll('.status-opt[data-sid]').forEach(el=>{
+    el.addEventListener('click',()=>{
+      const sid=el.dataset.sid;const status=el.dataset.status;const todayStr=new Date().toISOString().split('T')[0];
+      if(!state.records[todayStr]) state.records[todayStr]={date:todayStr,words:[],wordCount:0,studentResults:{}};
+      if(!state.records[todayStr].studentResults[sid]) state.records[todayStr].studentResults[sid]={status:null,note:''};
+      state.records[todayStr].studentResults[sid].status=status;
+      el.parentElement.querySelectorAll('.status-opt').forEach(o=>o.classList.remove('sel-pass','sel-practice','sel-fail'));
+      el.classList.add(`sel-${status}`);
+    });
+  });
+  document.querySelectorAll('.note-input[data-sid]').forEach(el=>{
+    el.addEventListener('change',()=>{
+      const sid=el.dataset.sid;const todayStr=new Date().toISOString().split('T')[0];
+      if(!state.records[todayStr]) state.records[todayStr]={date:todayStr,words:[],wordCount:0,studentResults:{}};
+      if(!state.records[todayStr].studentResults[sid]) state.records[todayStr].studentResults[sid]={status:null,note:''};
+      state.records[todayStr].studentResults[sid].note=el.value;
+    });
+  });
+  document.getElementById('btn-save-record')?.addEventListener('click',()=>{
+    saveState();
+    const msg=document.getElementById('save-msg');
+    if(msg){msg.textContent='✅ บันทึกเรียบร้อยแล้ว!';setTimeout(()=>{msg.textContent='';},2500);}
+  });
+  // QUIZ
+  document.querySelectorAll('.quiz-option').forEach(el=>{
+    el.addEventListener('click',()=>{
+      if(state.quizAnswered) return;
+      state.quizAnswered=true;state.quizTotal++;state.selectedAnswer=el.dataset.quizAns;
+      if(el.dataset.correct==='true') state.quizScore++;
+      render();
+    });
+  });
+  document.getElementById('btn-next-quiz')?.addEventListener('click',()=>{state.quizIdx++;state.quizAnswered=false;state.selectedAnswer=null;render();});
+}
+
+function showBankPicker(){
+  // Inject a bank picker panel into the words page below date strip, above word list
+  const vd=state.vocabViewDate;
+  const rec=state.records[vd]||{words:[]};
+  const existing=rec.words||[];
+  // Find container and append
+  const page=document.getElementById('page-content');
+  const insertTarget=page.querySelector('.card:nth-of-type(2)');
+  const div=document.createElement('div');
+  div.className='card';div.id='bank-picker';div.style.animation='pop .3s ease';
+  div.innerHTML=`<div class="card-title"><span>📚</span>เลือกจากคลังคำศัพท์</div>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px">
+      ${ALL_WORDS.map(w=>{
+        const sel=existing.includes(w.id);
+        return`<div class="bank-chip ${sel?'bank-sel':''}" data-bword="${w.id}" style="padding:7px 12px;border-radius:20px;border:2px solid ${sel?'var(--sky)':'#e0e0e0'};background:${sel?'var(--sky-light)':'#f5f5f5'};cursor:pointer;font-size:12px;transition:.2s;user-select:none">${w.emoji} ${w.english}</div>`;
+      }).join('')}
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-primary" style="flex:1" id="btn-bank-save">✅ บันทึกการเลือก</button>
+      <button class="btn btn-ghost" id="btn-bank-cancel">ยกเลิก</button>
+    </div>`;
+  if(insertTarget) page.insertBefore(div,insertTarget);
+  else page.appendChild(div);
+
+  let selected=[...existing];
+  div.querySelectorAll('.bank-chip').forEach(el=>{
+    el.addEventListener('click',()=>{
+      const wid=parseInt(el.dataset.bword);
+      if(selected.includes(wid)){
+        selected=selected.filter(id=>id!==wid);
+        el.style.borderColor='#e0e0e0';el.style.background='#f5f5f5';
+      }else{
+        selected.push(wid);
+        el.style.borderColor='var(--sky)';el.style.background='var(--sky-light)';
+      }
+    });
+  });
+  document.getElementById('btn-bank-save')?.addEventListener('click',()=>{
+    if(!state.records[vd]) state.records[vd]={date:vd,words:[],wordCount:0,studentResults:{}};
+    state.records[vd].words=selected;
+    state.records[vd].wordCount=selected.length;
+    saveState();render();
+  });
+  document.getElementById('btn-bank-cancel')?.addEventListener('click',()=>{render();});
+}
+
+
+document.addEventListener('click',(e)=>{
+ if(e.target?.id==='save-teacher-name'){
+   const t=USERS.find(u=>u.id==='t1');
+   if(t) t.name=document.getElementById('teacher-name-edit').value;
+   alert('บันทึกชื่อครูแล้ว');
+   render();
+ }
+ if(e.target?.id==='add-student-btn'){
+   const n=document.getElementById('new-student-name').value.trim();
+   if(!n) return;
+   state.students.push({id:'s'+Date.now(),name:n,role:'student',username:n,password:'1234',avatar:'🧑‍🎓',color:'#1976d2',room:'ป.3/1',number:state.students.length+1,grade:'ป.3'});
+   saveState(); render();
+ }
+ if(e.target?.classList.contains('del-student')){
+   state.students=state.students.filter(s=>s.id!==e.target.dataset.sid);
+   saveState(); render();
+ }
+});
+loadState().then(()=>render());
+
+</script>
+</body>
+</html>
